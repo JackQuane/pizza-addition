@@ -33,7 +33,7 @@ public class RegistrationService {
         }
 
         //"we have agreed with the pizzeria, that if we use table number which is greater than 10000,
-        //then they will know, that the pizza must be prepared for the takeway."
+        //then they will know, that the pizza must be prepared for the takeaway."
         if(maxTableNum>10000) {
             newTableNum = maxTableNum+1;
         } else {

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegistrationResponse {
 
-    String token;
-    int tableNum;
+    private String token;
+    private int tableNum;
 
 }
