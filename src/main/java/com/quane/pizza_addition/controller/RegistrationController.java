@@ -2,6 +2,7 @@ package com.quane.pizza_addition.controller;
 
 import com.quane.pizza_addition.model.RegistrationResponse;
 import com.quane.pizza_addition.service.RegistrationService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     @PostMapping
+    @ApiOperation("register a new user of the API")
     public ResponseEntity<RegistrationResponse> register() {
         return ResponseEntity.status(HttpStatus.OK).body(registrationService.register());
     }

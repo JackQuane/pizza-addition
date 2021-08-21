@@ -10,17 +10,16 @@ import com.quane.pizza_addition.model.RegistrationResponse;
 import lombok.AllArgsConstructor;
 import net.sf.json.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.SocketUtils;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,5 +72,30 @@ public class OrdersService {
         } else {
             throw new PizzaApiException("Invalid Order: Pizza type not allowed");
         }
+    }
+
+    public List<OrderResponse>  getOrdersByTableId(int tableNum) {
+
+        List<OrderResponse> matchingOrders = new ArrayList<>();
+
+        for (OrderResponse orderResponse: getAllOrders()) {
+            if(tableNum == orderResponse.getTableNum()) {
+                matchingOrders.add(orderResponse);
+            }
+        }
+
+        if(matchingOrders.isEmpty()) {
+            throw new PizzaApiException("Invalid Table Number: No order exists for provided table number");
+        }
+
+        return matchingOrders;
+    }
+
+    public void deleteOrderById(int orderId) {
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity request = new HttpEntity(headers);
+
+        ResponseEntity<String> response = new RestTemplate().exchange(ordersUrl + "/{" + orderId + "}", HttpMethod.DELETE, request, String.class, orderId);
     }
 }
